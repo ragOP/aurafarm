@@ -2694,7 +2694,7 @@ button.bg-\[\#000352\]  {
 
 /* new */
 .bg-info {
-    background: url("assets/images/bg-info.webp");
+    background: url("../images/bg-info.webp");
     background-size: cover;
     position: relative;
 }
