@@ -123,9 +123,10 @@ $(".offer_link").click(function(e){
         fbq('track', 'Lead');
     }
 
+    /* Wait for pixel to send before redirect (reduces lost Lead events) */
     setTimeout(() => {
         window.location.href = $(this).attr("href");
-    }, 150);
+    }, 800);
 
     setTimeout(() => {
         isClicked = false;
