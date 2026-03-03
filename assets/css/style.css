@@ -2790,3 +2790,26 @@ button.text-lg {
 .sticky-cta-bar.sticky-cta-bar--visible {
     transform: translateY(0);
 }
+
+/* Bounce arrow (scroll hint) – bold chevron, visible on light background */
+.arrow-bounce-wrap {
+    display: block;
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+.arrow-bounce {
+    display: inline-block;
+    color: #000352;
+    font-size: 28px !important;
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased;
+    animation: arrow-bounce 1.5s ease-in-out infinite;
+}
+@keyframes arrow-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
