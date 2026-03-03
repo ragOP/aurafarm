@@ -119,7 +119,9 @@ $(".offer_link").click(function(e){
     if (isClicked) return;
     isClicked = true;
 
-    fbq('track', 'PageView');
+    if (typeof fbq === 'function') {
+        fbq('track', 'Lead');
+    }
 
     setTimeout(() => {
         window.location.href = $(this).attr("href");
