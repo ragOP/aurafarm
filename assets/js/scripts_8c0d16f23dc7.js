@@ -125,11 +125,11 @@ $(".offer_link").click(function(e){
 
     setTimeout(() => {
         window.location.href = $(this).attr("href");
-    }, 500);
+    }, 150);
 
     setTimeout(() => {
         isClicked = false;
-    }, 5000);
+    }, 2000);
 });
 
 
