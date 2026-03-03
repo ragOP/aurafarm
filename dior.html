@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Survey Rewards — Earn $750</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E1A;
+    --surface: #111827;
+    --surface2: #1C2539;
+    --border: rgba(255,255,255,0.07);
+    --accent: #7C3AED;
+    --accent2: #A855F7;
+    --gold: #F59E0B;
+    --gold2: #FCD34D;
+    --green: #10B981;
+    --text: #F1F5F9;
+    --muted: #94A3B8;
+    --dim: #475569;
+  }
+
+  *, *::before, *::after {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG MESH */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -30%;
+    left: -20%;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    right: -20%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: 430px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .hdr {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(10,14,26,0.8);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .hdr-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hdr-logo {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(124,58,237,0.4);
+  }
+
+  .hdr-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .live-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 100px;
+    padding: 5px 11px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: blink 1.4s ease infinite;
+  }
+
+  @keyframes blink {
+    0%,100%{opacity:1} 50%{opacity:0.15}
+  }
+
+  /* NOTICE BAR */
+  .notice {
+    background: linear-gradient(90deg, rgba(124,58,237,0.2), rgba(168,85,247,0.2));
+    border-bottom: 1px solid rgba(124,58,237,0.2);
+    padding: 9px 20px;
+    text-align: center;
+    font-size: 12.5px;
+    color: #C4B5FD;
+    font-weight: 500;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 36px 20px 28px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .hero-badge-icon { font-size: 13px; }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 14px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero-title .amount {
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-title .word {
+    color: var(--text);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* CARD VISUAL */
+  .card-visual {
+    margin: 24px 20px;
+    background: linear-gradient(135deg, #1e1040 0%, #2d1b6b 50%, #1a0e45 100%);
+    border: 1px solid rgba(124,58,237,0.35);
+    border-radius: 22px;
+    padding: 26px 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(124,58,237,0.25), 0 0 0 1px rgba(255,255,255,0.04);
+  }
+
+  .card-visual::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(245,158,11,0.2), transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-chip {
+    width: 38px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    border-radius: 6px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-chip::after {
+    content:'';
+    position:absolute;
+    top:50%;left:0;right:0;
+    height:1px;
+    background:rgba(0,0,0,0.2);
+  }
+
+  .card-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+
+  .card-amount span {
+    font-size: 22px;
+    vertical-align: super;
+    margin-right: 2px;
+  }
+
+  .card-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .card-dots {
+    display: flex;
+    gap: 5px;
+  }
+  .card-dots span {
+    display: flex;
+    gap: 3px;
+  }
+  .card-dots span i {
+    width: 7px; height: 7px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    font-style: normal;
+  }
+
+  /* QUAL BADGE */
+  .qual {
+    margin: 0 20px 0;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 14px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .qual-check {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #059669, #10B981);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(16,185,129,0.35);
+  }
+
+  .qual-text {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #6EE7B7;
+    line-height: 1.4;
+  }
+
+  .qual-text span {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 20px 20px 0;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--accent), #6D28D9);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    box-shadow: 0 8px 30px rgba(124,58,237,0.45);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    animation: vpulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes vpulse {
+    0%,100%{ box-shadow: 0 8px 30px rgba(124,58,237,0.45); }
+    50%{ box-shadow: 0 8px 50px rgba(124,58,237,0.7); }
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    animation: shimmer 2.5s ease infinite;
+  }
+
+  @keyframes shimmer {
+    0%{ left: -100% }
+    60%,100%{ left: 150% }
+  }
+
+  .cta-btn:active {
+    transform: scale(0.98);
+    animation: none;
+  }
+
+  .cta-arrow {
+    font-size: 18px;
+    transition: transform 0.2s;
+  }
+
+  .cta-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 11px;
+  }
+
+  .cta-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--dim);
+    font-weight: 500;
+  }
+
+  .cta-meta-item .ic { font-size: 13px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 20px;
+  }
+
+  /* STEPS */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--dim);
+    margin-bottom: 18px;
+    padding: 0 20px;
+  }
+
+  .steps {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: -8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    opacity: 0.3;
+  }
+
+  .step + .step {
+    margin-top: 8px;
+  }
+
+  .step-num-wrap {
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .step-num {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--accent), #6D28D9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(124,58,237,0.3);
+  }
+
+  .step-body {
+    padding-bottom: 22px;
+    flex: 1;
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* PROOF */
+  .proof-row {
+    margin: 0 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .proof-text {
+    font-size: 13px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .proof-text b {
+    color: var(--text);
+  }
+
+  .spots-pill {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 100px;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #F87171;
+    white-space: nowrap;
+  }
+
+  /* URGENCY */
+  .urgency {
+    margin: 10px 20px 0;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #FCD34D;
+  }
+
+  .urgency-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* TRUST ROW */
+  .trust-row {
+    margin: 18px 20px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .trust-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .trust-icon { font-size: 20px; margin-bottom: 6px; }
+
+  .trust-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  /* BOTTOM CTA */
+  .bottom-cta {
+    padding: 24px 20px 0;
+  }
+
+  .bottom-cta .cta-btn {
+    animation: none;
+    background: linear-gradient(135deg, var(--gold), #D97706);
+    box-shadow: 0 8px 30px rgba(245,158,11,0.35);
+  }
+
+  .bottom-cta .cta-btn:active {
+    box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+  }
+
+  /* FINE PRINT */
+  .fine {
+    margin: 20px 20px 0;
+    font-size: 10.5px;
+    color: var(--dim);
+    line-height: 1.7;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  /* STICKY FOOTER */
+  .sticky {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1);
+    width: 100%;
+    max-width: 430px;
+    padding: 12px 20px 30px;
+    background: linear-gradient(to top, rgba(10,14,26,0.98) 65%, transparent);
+    z-index: 99;
+  }
+
+  .sticky.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .sticky .cta-btn {
+    animation: none;
+    box-shadow: 0 8px 30px rgba(124,58,237,0.5);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-logo">R</div>
+      <div class="hdr-name">RewardsPulse</div>
+    </div>
+    <div class="live-pill">
+      <div class="dot"></div>
+      Active offer
+    </div>
+  </div>
+
+  <!-- NOTICE -->
+  <div class="notice">
+    🎁 &nbsp;Limited-time reward — only available while spots last
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-badge-icon">⚡</span>
+      Takes 60 seconds
+    </div>
+    <div class="hero-title">
+      <div class="word">Earn up to</div>
+      <div class="amount">$750</div>
+      <div class="word">in rewards</div>
+    </div>
+    <div class="hero-sub">
+      Share your shopping habits in 4 quick questions and get rewarded. No purchase needed.
+    </div>
+  </div>
+
+  <!-- GIFT CARD VISUAL -->
+  <div class="card-visual">
+    <div class="card-chip"></div>
+    <div class="card-amount"><span>$</span>750</div>
+    <div class="card-label">Shopping Reward Card</div>
+    <div class="card-footer">
+      <div class="card-brand">RewardsPulse</div>
+      <div class="card-dots">
+        <span><i></i><i></i><i></i><i></i></span>
+        <span><i></i><i></i><i></i><i></i></span>
+        <span><i></i><i></i><i></i><i></i></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUAL -->
+  <div class="qual">
+    <div class="qual-check">
+      <svg width="13" height="10" viewBox="0 0 13 10" fill="none">
+        <path d="M1.5 5l3.5 3.5 6.5-8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="qual-text">
+      You qualify — <span>reward available in your region right now</span>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <a href="#" class="cta-btn" id="cta1">
+      Claim My $750 Reward
+      <span class="cta-arrow">→</span>
+    </a>
+    <div class="cta-meta">
+      <div class="cta-meta-item"><span class="ic">🆓</span> Free to join</div>
+      <div class="cta-meta-item"><span class="ic">📱</span> Digital delivery</div>
+      <div class="cta-meta-item"><span class="ic">🔒</span> Secure</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STEPS -->
+  <div class="section-label">How it works</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-num">1</div></div>
+      <div class="step-body">
+        <div class="step-title">Answer 4 quick questions</div>
+        <div class="step-desc">Share your honest shopping preferences — takes under 60 seconds.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-num">2</div></div>
+      <div class="step-body">
+        <div class="step-title">Complete qualifying offers</div>
+        <div class="step-desc">Choose from free trials, apps, and more — fully your choice.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-num">3</div></div>
+      <div class="step-body">
+        <div class="step-title">Receive your reward</div>
+        <div class="step-desc">Delivered digitally — use online or in-store.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOCIAL PROOF -->
+  <div class="proof-row">
+    <div class="dot"></div>
+    <div class="proof-text">
+      <b id="live-ct">247</b> people completing this right now
+    </div>
+    <div class="spots-pill"><span id="slots-left">23</span> spots left</div>
+  </div>
+
+  <!-- URGENCY -->
+  <div class="urgency">
+    <span class="urgency-icon">⏳</span>
+    <span>Only <b id="slots-num">23</b> reward spots remaining in <b id="region">your area</b> today.</span>
+  </div>
+
+  <!-- TRUST -->
+  <div class="trust-row">
+    <div class="trust-item">
+      <div class="trust-icon">🛡️</div>
+      <div class="trust-label">SSL Secure</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">✅</div>
+      <div class="trust-label">Verified Offer</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">💳</div>
+      <div class="trust-label">No Card Needed</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="bottom-cta">
+    <a href="#" class="cta-btn" id="cta2">
+      Yes! I Want My $750 →
+    </a>
+    <div class="cta-meta" style="margin-top:11px">
+      <div class="cta-meta-item"><span class="ic">⚡</span> Instant access</div>
+      <div class="cta-meta-item"><span class="ic">🎁</span> 100% free</div>
+      <div class="cta-meta-item"><span class="ic">📲</span> Mobile friendly</div>
+    </div>
+  </div>
+
+  <!-- FINE PRINT -->
+  <div class="fine">
+    * This promotion is operated independently and is not sponsored, endorsed, or affiliated with any retail brand. All trademarks belong to their respective owners. Reward requires completion of qualifying offers. No purchase necessary where prohibited by law. Terms and conditions apply.
+  </div>
+
+</div>
+
+<!-- STICKY CTA -->
+<div class="sticky" id="sticky">
+  <a href="#" class="cta-btn">
+    Claim My $750 Reward →
+  </a>
+</div>
+
+<script>
+  // Sticky CTA
+  new IntersectionObserver(entries => {
+    document.getElementById('sticky').classList.toggle('show', !entries[0].isIntersecting);
+  }, { threshold: 0 }).observe(document.getElementById('cta1'));
+
+  // Static counters with slow random drift (no fake inflation)
+  let live = 247;
+  setInterval(() => {
+    live += Math.floor(Math.random() * 5) - 2;
+    if (live < 180) live = 200;
+    if (live > 350) live = 300;
+    document.getElementById('live-ct').textContent = live;
+  }, 5000);
+
+  // Geo region
+  const tzMap = {
+    'America/New_York': 'New York',
+    'America/Chicago': 'Illinois',
+    'America/Denver': 'Colorado',
+    'America/Los_Angeles': 'California',
+    'America/Phoenix': 'Arizona',
+    'America/Detroit': 'Michigan'
+  };
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const region = tzMap[tz] || 'your area';
+  document.getElementById('region').textContent = region;
+</script>
+</body>
+</html>
