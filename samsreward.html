@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Sam's Club — $750 Reward</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rewards Club - Sam's Club</title>
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1686948372258756');
+            fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1686948372258756&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- End Meta Pixel Code -->
         <style>
             *, *::before, *::after {
                 margin: 0;
@@ -383,7 +399,7 @@
             </div>
             <!-- CTA -->
             <div class="cta-wrap">
-                <a href="https://www.uplevelrewards.com/?Flow=656AE1C3-D3CE-3C2C-D9AE-1CBE7395FA7DE8814900&isPrePop=true&RBC=1&lp=flashpollshopping&reward=samsclub750pollus&o=218763&affsecid=5253267010&subaff1=2065&subaff2=208110&subaff3=270049&aff_pixel=&subaff4=samsclub750pollus-default-42037-flashpollshopping&DVID=&bckm=1" class="cta-btn" id="cta1">Yes! I Want My $750 Reward →
+                <a href="https://trkfy.org/aff_c?offer_id=2965&aff_id=2065" class="cta-btn offer_link" id="cta1">Yes! I Want My $750 Reward →
     </a>
                 <div class="cta-note">
                     <b>Free to claim</b>
@@ -439,7 +455,7 @@
             </div>
             <!-- BOTTOM CTA -->
             <div class="cta-wrap" style="padding-top:20px">
-                <a href="https://www.uplevelrewards.com/?Flow=656AE1C3-D3CE-3C2C-D9AE-1CBE7395FA7DE8814900&isPrePop=true&RBC=1&lp=flashpollshopping&reward=samsclub750pollus&o=218763&affsecid=5253267010&subaff1=2065&subaff2=208110&subaff3=270049&aff_pixel=&subaff4=samsclub750pollus-default-42037-flashpollshopping&DVID=&bckm=1" class="cta-btn" id="cta2" style="animation:none;box-shadow:0 4px 14px rgba(22,163,74,0.35)">Yes! I Want My $750 Reward →
+                <a href="https://trkfy.org/aff_c?offer_id=2965&aff_id=2065" class="cta-btn offer_link" id="cta2" style="animation:none;box-shadow:0 4px 14px rgba(22,163,74,0.35)">Yes! I Want My $750 Reward →
     </a>
                 <div class="cta-note" style="margin-top:8px">
                     <b>Free</b>
@@ -449,7 +465,7 @@
             <div class="fine">* This promotion is not sponsored, endorsed, or administered by Sam's Club or Walmart Inc. All trademarks are property of their respective owners. Reward requires completion of qualifying offers. No purchase necessary where prohibited by law.</div>
         </div>
         <div class="sticky" id="sticky">
-            <a href="https://www.uplevelrewards.com/?Flow=656AE1C3-D3CE-3C2C-D9AE-1CBE7395FA7DE8814900&isPrePop=true&RBC=1&lp=flashpollshopping&reward=samsclub750pollus&o=218763&affsecid=5253267010&subaff1=2065&subaff2=208110&subaff3=270049&aff_pixel=&subaff4=samsclub750pollus-default-42037-flashpollshopping&DVID=&bckm=1" class="cta-btn">Yes! I Want My $750 Reward →</a>
+            <a href="https://trkfy.org/aff_c?offer_id=2965&aff_id=2065" class="cta-btn offer_link">Yes! I Want My $750 Reward →</a>
         </div>
         <script>
             const tzMap = {
@@ -493,6 +509,22 @@
             ,{
                 threshold: 0
             }).observe(document.getElementById('cta1'));
+
+            let offerClicked = false;
+            document.querySelectorAll('.offer_link').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (offerClicked) return;
+                    offerClicked = true;
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'Lead');
+                    }
+                    setTimeout(function() {
+                        window.location.href = el.getAttribute('href');
+                    }, 800);
+                    setTimeout(function() { offerClicked = false; }, 2000);
+                });
+            });
         </script>
     </body>
 </html>
