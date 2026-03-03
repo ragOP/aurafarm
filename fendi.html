@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pulse Rewards — Earn $750</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050810;--s1:#0C1220;--s2:#111827;--s3:#1A2236;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --teal:#0ECFB0;--teal2:#06B89C;--teal3:#04967F;
+  --rose:#F43F5E;--amber:#F59E0B;
+  --text:#EEF2FF;--muted:#8896B3;--dim:#3D4E6B;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;}
+
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.5;}
+
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");opacity:0.03;z-index:1;pointer-events:none;}
+
+.wrap{max-width:430px;margin:0 auto;padding-bottom:110px;position:relative;z-index:2;}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--border);backdrop-filter:blur(24px);background:rgba(5,8,16,0.85);position:sticky;top:0;z-index:60;animation:fadeDown 0.6s ease both;}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+.hdr-mark{display:flex;align-items:center;gap:11px;}
+.mark-ring{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--teal3));display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(14,207,176,0.3);position:relative;overflow:hidden;}
+.mark-ring::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent 270deg,rgba(255,255,255,0.18) 360deg);animation:spin 3s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mark-inner{position:relative;z-index:1;font-family:'Playfair Display',serif;font-weight:900;font-size:16px;color:#fff;}
+.hdr-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:0.2px;}
+.status-chip{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:100px;background:rgba(14,207,176,0.08);border:1px solid rgba(14,207,176,0.2);font-size:11.5px;font-weight:600;color:var(--teal);}
+.pulse-dot{width:6px;height:6px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pdot 1.6s ease infinite;}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+
+/* TICKER */
+.ticker-wrap{overflow:hidden;border-bottom:1px solid var(--border);background:rgba(14,207,176,0.04);padding:8px 0;}
+.ticker-track{display:flex;gap:36px;animation:ticker 24s linear infinite;white-space:nowrap;}
+.ticker-item{font-size:11.5px;font-weight:600;color:var(--teal);letter-spacing:1.5px;flex-shrink:0;text-transform:uppercase;}
+.ticker-sep{color:var(--dim);}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* HERO */
+.hero{padding:44px 22px 28px;text-align:center;animation:heroIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s both;}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-kicker{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;position:relative;padding:0 28px;}
+.hero-kicker::before,.hero-kicker::after{content:'';position:absolute;top:50%;width:20px;height:1px;background:var(--dim);}
+.hero-kicker::before{left:0}.hero-kicker::after{right:0}
+.hero-h1{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;line-height:1.0;letter-spacing:-2px;margin-bottom:10px;}
+.hero-h1 em{font-style:italic;background:linear-gradient(135deg,var(--teal),#7FFFEE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-amount{display:block;font-size:72px;font-weight:900;letter-spacing:-4px;line-height:1.0;background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,0.55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;}
+.hero-amount::after{content:attr(data-text);position:absolute;inset:0;background:linear-gradient(135deg,var(--teal),transparent 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0.3;filter:blur(12px);}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;margin:16px auto 0;max-width:310px;font-weight:400;}
+
+/* REWARD CARD */
+.rc-outer{margin:0 22px;perspective:900px;animation:cardIn 1s cubic-bezier(0.22,1,0.36,1) 0.35s both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) rotateX(8deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
+.rc{border-radius:24px;background:linear-gradient(145deg,#0D2E2E 0%,#061A24 40%,#040D18 100%);border:1px solid rgba(14,207,176,0.2);padding:28px 26px 24px;position:relative;overflow:hidden;box-shadow:0 2px 0 rgba(255,255,255,0.04) inset,0 30px 80px rgba(14,207,176,0.12),0 0 0 1px rgba(255,255,255,0.04);transition:transform 0.4s;}
+.rc:active{transform:scale(0.985)}
+.rc-aurora{position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(14,207,176,0.18) 0%,transparent 70%);animation:af 6s ease-in-out infinite;}
+.rc-aurora2{position:absolute;bottom:-80px;left:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(244,63,94,0.1) 0%,transparent 70%);animation:af 8s ease-in-out infinite reverse;}
+@keyframes af{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(15px,-20px) scale(1.1)}}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,rgba(255,255,255,0.04),transparent);border-radius:24px 24px 0 0;pointer-events:none;}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;position:relative;z-index:1;}
+.rc-chip{width:42px;height:32px;background:linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.12);border-radius:7px;position:relative;overflow:hidden;}
+.rc-chip::before{content:'';position:absolute;top:35%;left:0;right:0;height:1px;background:rgba(255,255,255,0.1);}
+.rc-chip::after{content:'';position:absolute;left:35%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.1);}
+.rc-type{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.rc-mid{position:relative;z-index:1;margin-bottom:26px;}
+.rc-val{font-family:'Playfair Display',serif;font-size:46px;font-weight:900;letter-spacing:-2px;color:#fff;line-height:1;text-shadow:0 0 40px rgba(14,207,176,0.3);}
+.rc-val sup{font-size:22px;vertical-align:super;margin-right:3px;opacity:0.7;}
+.rc-val-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:5px;}
+.rc-bot{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.rc-brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:0.3px;}
+.rc-signal{display:flex;align-items:flex-end;gap:3px;}
+.rc-signal span{display:block;width:5px;border-radius:2px 2px 0 0;background:rgba(14,207,176,0.4);animation:sp 1.8s ease infinite;}
+.rc-signal span:nth-child(1){height:8px;animation-delay:0s}
+.rc-signal span:nth-child(2){height:14px;animation-delay:0.2s}
+.rc-signal span:nth-child(3){height:20px;animation-delay:0.4s}
+@keyframes sp{0%,100%{background:rgba(14,207,176,0.4)}50%{background:rgba(14,207,176,1)}}
+
+/* QUAL */
+.qual{margin:14px 22px 0;background:rgba(14,207,176,0.06);border:1px solid rgba(14,207,176,0.18);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;animation:fadeUp 0.7s 0.5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.qual-icon{width:30px;height:30px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal3));display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(14,207,176,0.35);}
+.qual-copy{font-size:13.5px;font-weight:600;color:#A8EDDE;line-height:1.4;}
+.qual-copy span{color:var(--muted);font-weight:400;}
+
+/* CTA */
+.cta-wrap{padding:18px 22px 0;animation:fadeUp 0.7s 0.6s ease both;}
+.cta-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:19px 24px;background:linear-gradient(135deg,var(--teal),var(--teal3));color:#030D0B;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;border:none;border-radius:16px;text-decoration:none;cursor:pointer;letter-spacing:0.2px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(14,207,176,0.35);transition:transform 0.15s,box-shadow 0.15s;animation:ctaPulse 2.6s ease-in-out infinite;}
+@keyframes ctaPulse{0%,100%{box-shadow:0 8px 32px rgba(14,207,176,0.35)}50%{box-shadow:0 8px 52px rgba(14,207,176,0.62)}}
+.cta-btn::before{content:'';position:absolute;top:0;left:-110%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:sheen 2.8s ease infinite;}
+@keyframes sheen{0%{left:-110%}55%,100%{left:160%}}
+.cta-btn:active{transform:scale(0.97);animation:none;}
+.cta-arrow{width:26px;height:26px;background:rgba(0,0,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cta-trust{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:11px;}
+.ct-item{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--dim);}
+.ct-dot{width:3px;height:3px;border-radius:50%;background:var(--dim);}
+
+/* SECTION HEADER */
+.sec-hdr{padding:32px 22px 18px;display:flex;align-items:center;gap:14px;}
+.sec-line{height:1px;flex:1;background:linear-gradient(to right,var(--border2),transparent);}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
+
+/* 3 CARDS */
+.cards-grid{padding:0 22px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.hcard{background:var(--s2);border:1px solid var(--border);border-radius:18px;padding:18px 14px 16px;position:relative;overflow:hidden;transition:border-color 0.25s,transform 0.25s;animation:cardStagger 0.7s ease both;}
+.hcard:nth-child(1){animation-delay:0.1s}.hcard:nth-child(2){animation-delay:0.2s}.hcard:nth-child(3){animation-delay:0.3s}
+@keyframes cardStagger{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hcard:active{transform:scale(0.96);border-color:rgba(14,207,176,0.3);}
+.hcard::before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;opacity:0.4;}
+.hcard:nth-child(1)::before{background:radial-gradient(circle,rgba(14,207,176,0.3),transparent 70%);}
+.hcard:nth-child(2)::before{background:radial-gradient(circle,rgba(245,158,11,0.25),transparent 70%);}
+.hcard:nth-child(3)::before{background:radial-gradient(circle,rgba(244,63,94,0.2),transparent 70%);}
+.hcard-num{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:14px;display:block;}
+.hcard:nth-child(1) .hcard-num{color:var(--teal)}.hcard:nth-child(2) .hcard-num{color:var(--amber)}.hcard:nth-child(3) .hcard-num{color:var(--rose)}
+.hcard-icon{width:38px;height:38px;border-radius:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;}
+.hcard:nth-child(1) .hcard-icon{background:rgba(14,207,176,0.1);border:1px solid rgba(14,207,176,0.2);}
+.hcard:nth-child(2) .hcard-icon{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);}
+.hcard:nth-child(3) .hcard-icon{background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);}
+.hcard-title{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:6px;}
+.hcard-desc{font-size:11.5px;color:var(--muted);line-height:1.5;font-weight:400;}
+
+/* STATS */
+.stats-row{margin:22px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-card{background:var(--s2);border:1px solid var(--border);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;animation:fadeUp 0.7s 0.4s ease both;}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;border-radius:0 0 16px 16px;}
+.stat-card:nth-child(1)::after{background:linear-gradient(90deg,var(--teal),transparent);}
+.stat-card:nth-child(2)::after{background:linear-gradient(90deg,var(--amber),transparent);}
+.stat-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--text);letter-spacing:-1px;line-height:1;margin-bottom:5px;}
+.stat-val .sa{color:var(--teal)}.stat-card:nth-child(2) .stat-val .sa{color:var(--amber);}
+.stat-label{font-size:12px;font-weight:500;color:var(--muted);line-height:1.4;}
+
+/* URGENCY */
+.urgency-block{margin:14px 22px 0;background:rgba(244,63,94,0.05);border:1px solid rgba(244,63,94,0.15);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;animation:fadeUp 0.7s 0.5s ease both;}
+.urgency-icon-wrap{width:38px;height:38px;flex-shrink:0;border-radius:10px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);display:flex;align-items:center;justify-content:center;}
+.urgency-text{font-size:13.5px;font-weight:500;color:#FCA5A5;line-height:1.45;}
+.urgency-text b{color:#F87171;font-weight:700;}
+.hourglass-svg{animation:hFlip 2.4s ease-in-out infinite;}
+@keyframes hFlip{0%,45%{transform:rotate(0deg)}55%,100%{transform:rotate(180deg)}}
+
+/* TRUST STRIP */
+.trust-strip{margin:14px 22px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.tcard{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;animation:fadeUp 0.7s 0.55s ease both;}
+.tcard-icon{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.tcard-label{font-size:11px;font-weight:600;color:var(--muted);line-height:1.35;}
+
+/* BOTTOM CTA */
+.bottom-cta{padding:26px 22px 0;animation:fadeUp 0.7s 0.6s ease both;}
+.bottom-cta .cta-btn{background:linear-gradient(135deg,#fff,#D1FAF4);color:#060E0C;animation:none;box-shadow:0 8px 32px rgba(255,255,255,0.12);}
+.bottom-cta .cta-btn::before{animation:sheen 3s ease infinite;}
+
+/* FINE */
+.fine{margin:20px 22px 0;padding:14px 16px;background:var(--s1);border:1px solid var(--border);border-radius:12px;font-size:10.5px;color:var(--dim);line-height:1.75;}
+
+/* STICKY */
+.sticky-footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(110%);width:100%;max-width:430px;padding:12px 22px 30px;z-index:80;background:linear-gradient(to top,rgba(5,8,16,0.99) 60%,transparent);transition:transform 0.38s cubic-bezier(0.34,1.1,0.64,1);}
+.sticky-footer.show{transform:translateX(-50%) translateY(0);}
+.sticky-footer .cta-btn{animation:none;box-shadow:0 6px 28px rgba(14,207,176,0.4);}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="wrap">
+
+  <header class="hdr">
+    <div class="hdr-mark">
+      <div class="mark-ring"><span class="mark-inner">P</span></div>
+      <span class="hdr-title">Pulse Rewards</span>
+    </div>
+    <div class="status-chip"><div class="pulse-dot"></div>Live offer</div>
+  </header>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item">Offer Active</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Limited Availability</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">No Purchase Required</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Digital Delivery</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Verified Program</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Offer Active</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Limited Availability</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">No Purchase Required</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Digital Delivery</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Verified Program</span><span class="ticker-sep">·</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-kicker">Exclusive Reward Program</div>
+    <h1 class="hero-h1">
+      <em>Earn</em> up to
+      <span class="hero-amount" data-text="$750">$750</span>
+    </h1>
+    <p class="hero-sub">Share your shopping habits in under 60 seconds. No purchase, no card, no catch.</p>
+  </section>
+
+  <div class="rc-outer">
+    <div class="rc">
+      <div class="rc-aurora"></div>
+      <div class="rc-aurora2"></div>
+      <div class="rc-top">
+        <div class="rc-chip"></div>
+        <div class="rc-type">Reward Card</div>
+      </div>
+      <div class="rc-mid">
+        <div class="rc-val"><sup>$</sup>750</div>
+        <div class="rc-val-label">Shopping Balance</div>
+      </div>
+      <div class="rc-bot">
+        <div class="rc-brand">Pulse Rewards</div>
+        <div class="rc-signal"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qual">
+    <div class="qual-icon">
+      <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+        <path d="M1.5 5.5L5 9l7.5-8" stroke="#030D0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="qual-copy">Your region qualifies — <span>reward spots available near you right now</span></div>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="#" class="cta-btn" id="cta-top">
+      Claim My $750 Reward
+      <span class="cta-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="#030D0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+    <div class="cta-trust">
+      <div class="ct-item">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1L1 3v3c0 2.5 1.7 4.8 4 5.5C8.3 10.8 10 8.5 10 6V3L5 1z" stroke="var(--dim)" stroke-width="1.4" fill="none"/></svg>
+        SSL Secure
+      </div>
+      <div class="ct-dot"></div>
+      <div class="ct-item">Free to join</div>
+      <div class="ct-dot"></div>
+      <div class="ct-item">60 seconds</div>
+    </div>
+  </div>
+
+  <div class="sec-hdr">
+    <div class="sec-label">How it works</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="hcard">
+      <span class="hcard-num">01</span>
+      <div class="hcard-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7.5" stroke="rgba(14,207,176,0.8)" stroke-width="1.3"/>
+          <path d="M6 9.5l2 2 4-4" stroke="rgba(14,207,176,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="hcard-title">Answer Questions</div>
+      <div class="hcard-desc">4 quick questions about your habits</div>
+    </div>
+    <div class="hcard">
+      <span class="hcard-num">02</span>
+      <div class="hcard-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2.5" y="4.5" width="13" height="10" rx="2" stroke="rgba(245,158,11,0.8)" stroke-width="1.3"/>
+          <path d="M2.5 8h13" stroke="rgba(245,158,11,0.8)" stroke-width="1.3"/>
+          <circle cx="6" cy="12" r="1" fill="rgba(245,158,11,0.8)"/>
+        </svg>
+      </div>
+      <div class="hcard-title">Pick Offers</div>
+      <div class="hcard-desc">Free trials of your choice</div>
+    </div>
+    <div class="hcard">
+      <span class="hcard-num">03</span>
+      <div class="hcard-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2v14M4 6l5-4 5 4" stroke="rgba(244,63,94,0.8)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="4.5" y="10" width="9" height="5" rx="1.5" stroke="rgba(244,63,94,0.7)" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div class="hcard-title">Get Rewarded</div>
+      <div class="hcard-desc">Digital delivery, use anywhere</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val"><span class="sa" id="live-ct">247</span></div>
+      <div class="stat-label">People completing this right now</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val"><span class="sa" id="slots-num">23</span></div>
+      <div class="stat-label">Reward spots still available today</div>
+    </div>
+  </div>
+
+  <div class="urgency-block">
+    <div class="urgency-icon-wrap">
+      <svg class="hourglass-svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M5 3h10M5 17h10M6 3c0 4 4 5 4 7s-4 3-4 7M14 3c0 4-4 5-4 7s4 3 4 7" stroke="#F87171" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M7.5 14.5Q10 13 12.5 14.5" stroke="#F87171" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="urgency-text">Only <b><span id="urgency-slots">23</span> spots remaining</b> in <b id="region">your area</b> — offer closes at midnight.</div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="tcard">
+      <div class="tcard-icon">
+        <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+          <path d="M8 1L2 4v5c0 4 2.7 7.7 6 8.8C11.3 16.7 14 13 14 9V4L8 1z" stroke="var(--teal)" stroke-width="1.4" fill="none"/>
+        </svg>
+      </div>
+      <div class="tcard-label">SSL Encrypted</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-icon">
+        <svg width="17" height="14" viewBox="0 0 17 14" fill="none">
+          <rect x="1" y="1" width="15" height="12" rx="2" stroke="var(--amber)" stroke-width="1.4"/>
+          <path d="M1 5h15" stroke="var(--amber)" stroke-width="1.4"/>
+          <path d="M4 9.5h4" stroke="var(--amber)" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tcard-label">No Card Needed</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.5" stroke="var(--rose)" stroke-width="1.4"/>
+          <path d="M8 5v3.5l2.5 1.5" stroke="var(--rose)" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tcard-label">Instant Access</div>
+    </div>
+  </div>
+
+  <div class="bottom-cta">
+    <a href="#" class="cta-btn">
+      Yes — Claim My Reward Now
+      <span class="cta-arrow" style="background:rgba(0,0,0,0.1)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="#060E0C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+    <div class="cta-trust" style="margin-top:11px">
+      <div class="ct-item">No purchase needed</div>
+      <div class="ct-dot"></div>
+      <div class="ct-item">100% free</div>
+      <div class="ct-dot"></div>
+      <div class="ct-item">60 sec</div>
+    </div>
+  </div>
+
+  <div class="fine">* This promotion is independently operated and is not sponsored, endorsed, or affiliated with any retail brand or third party. All trademarks belong to their respective owners. Reward requires completion of qualifying offers. No purchase necessary where prohibited by law.</div>
+
+</div>
+
+<div class="sticky-footer" id="sticky-footer">
+  <a href="#" class="cta-btn">
+    Claim My $750 Reward
+    <span class="cta-arrow">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="#030D0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </a>
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('bgCanvas');
+  const ctx=c.getContext('2d');
+  let W,H,pts;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function mkPts(){pts=Array.from({length:55},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+0.3,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.18,a:Math.random()}));}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(14,207,176,${0.06*(1-d/90)})`;ctx.lineWidth=0.6;ctx.stroke();}}}
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(14,207,176,${p.a*0.5})`;ctx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});
+    requestAnimationFrame(draw);
+  }
+  resize();mkPts();draw();
+  window.addEventListener('resize',()=>{resize();mkPts();});
+})();
+
+new IntersectionObserver(entries=>{
+  document.getElementById('sticky-footer').classList.toggle('show',!entries[0].isIntersecting);
+},{threshold:0}).observe(document.getElementById('cta-top'));
+
+let live=247;
+setInterval(()=>{live+=Math.floor(Math.random()*5)-2;live=Math.max(180,Math.min(350,live));document.getElementById('live-ct').textContent=live;},4800);
+
+const tzMap={'America/New_York':'New York','America/Chicago':'Illinois','America/Denver':'Colorado','America/Los_Angeles':'California','America/Phoenix':'Arizona','America/Detroit':'Michigan'};
+const tz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+document.getElementById('region').textContent=tzMap[tz]||'your area';
+
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});},{threshold:0.1});
+document.querySelectorAll('.hcard,.stat-card,.tcard,.urgency-block').forEach(el=>{el.style.animationPlayState='paused';observer.observe(el);});
+</script>
+</body>
+</html>
