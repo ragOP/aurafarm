@@ -2782,3 +2782,11 @@ button.text-lg {
     animation: shimmer 2.5s ease-in-out infinite;
     pointer-events: none;
 }
+
+/* Sticky CTA bar: hidden on hero, slide up after scroll */
+.sticky-cta-bar {
+    transform: translateY(100%);
+}
+.sticky-cta-bar.sticky-cta-bar--visible {
+    transform: translateY(0);
+}

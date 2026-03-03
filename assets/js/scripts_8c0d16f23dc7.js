@@ -132,6 +132,19 @@ $(".offer_link").click(function(e){
     }, 2000);
 });
 
+// Sticky CTA bar: show only after user scrolls past hero
+function updateStickyCta() {
+    var threshold = 380;
+    var $bar = $('.sticky-cta-bar');
+    if ($bar.length && window.scrollY >= threshold) {
+        $bar.addClass('sticky-cta-bar--visible');
+    } else if ($bar.length) {
+        $bar.removeClass('sticky-cta-bar--visible');
+    }
+}
+$(window).on('scroll', updateStickyCta);
+$(document).ready(updateStickyCta);
+
 
 // test
 // $('[data-page="index"]').fadeOut(0)
