@@ -305,7 +305,7 @@
                 </div>
             </div>
             <!-- COMMENTS -->
-            <div class="bg-white text-left p-5 sm:p-6 rounded-2xl shadow-xl mt-2 animate-fade-in">
+            <div id="commentsSection" class="bg-white text-left p-5 sm:p-6 rounded-2xl shadow-xl mt-2 animate-fade-in">
                 <h3 class="font-extrabold text-xl text-gray-900 mb-4">Comments</h3>
                 <div class="border-t border-gray-100 pt-4">
                     <div class="flex space-x-3 mb-5">
@@ -477,6 +477,8 @@
             function startQuiz() {
                 document.getElementById('introScreen').style.display = 'none';
                 document.getElementById('trustBadges').style.display = 'none';
+                var commentsEl = document.getElementById('commentsSection');
+                if (commentsEl) commentsEl.style.marginTop = '25%';
                 currentQuestion = 0;
                 showQuestion();
             }
