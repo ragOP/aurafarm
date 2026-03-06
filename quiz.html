@@ -499,6 +499,7 @@
             }
 
             function showQuestion() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 const q = questions[currentQuestion];
                 const progress = ((currentQuestion + 1) / questions.length) * 100;
                 document.getElementById('mainContent').innerHTML = `
@@ -520,6 +521,7 @@
             }
 
             function selectAnswer(index) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 const q = questions[currentQuestion];
                 userAnswers[q.key] = q.values[index];
                 const btn = document.getElementById(`answer-${index}`);
